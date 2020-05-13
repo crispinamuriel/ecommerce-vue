@@ -13,9 +13,29 @@ const app = new Vue({
     inStock: true,
     inventory: 8,
     red: {
-      color: 'red'
+      color: "red",
     },
-    details: ['80% cotton', '20% polyester', 'Gender neutral']
+    details: ["80% cotton", "20% polyester", "Gender neutral"],
+    variants: [
+      {
+        variantId: 2234,
+        variantColor: "green",
+        variantImage:
+          "https://m.media-amazon.com/images/I/61zSO8KY7hL._SR500,500_.jpg",
+      },
+      {
+        variantId: 2235,
+        variantColor: "blue",
+        variantImage:
+          "https://www.argylesocks.co/wp-content/uploads/2013/02/1110x1266-VU102.jpg",
+      },
+    ],
+  },
+  methods: {
+    handleChange(img) {
+      console.log(img);
+      this.image = img;
+    },
   },
 });
 

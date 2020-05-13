@@ -28,6 +28,14 @@
             {{detail}}
           </li>
         </ul>
+
+        <div class="color-box"
+             v-for="variant in variants"
+             :style="{ backgroundColor: variant.variantColor }"
+             @mouseover="handleChange(variant.variantImage)"
+        >
+        </div>
+
       </div>
 
 
