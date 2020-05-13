@@ -31,12 +31,18 @@ const app = new Vue({
           "https://www.argylesocks.co/wp-content/uploads/2013/02/1110x1266-VU102.jpg",
       },
     ],
+    cart: 0
   },
   methods: {
     handleChange(img) {
-      console.log(img);
       this.image = img;
     },
+    addToCart() {
+      this.cart++;
+    },
+    remove() {
+      if (this.cart > 0) this.cart--;
+    }
   },
 });
 
