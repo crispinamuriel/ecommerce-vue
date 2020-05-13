@@ -31,10 +31,13 @@
 
         <div class="color-box"
              v-for="variant in variants"
+             :key="variant.variantId"
              :style="{ backgroundColor: variant.variantColor }"
              @mouseover="handleChange(variant.variantImage)"
         >
         </div>
+
+        <p v-for="size in sizes">{{ size }}</p>
 
       </div>
 

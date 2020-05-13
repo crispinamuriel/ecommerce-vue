@@ -16,6 +16,7 @@ const app = new Vue({
       color: "red",
     },
     details: ["80% cotton", "20% polyester", "Gender neutral"],
+    sizes: ['size 5-8', 'size 8-10', 'size 11-14'],
     variants: [
       {
         variantId: 2234,
