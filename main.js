@@ -4,13 +4,13 @@ console.log('hi')
 const app = new Vue({
   el: "#app",
   data: {
-    onSale: true,
+    onSale: false,
     product: "Socks",
     description: "Comfortable stylish men's socks!",
     image: "https://m.media-amazon.com/images/I/61zSO8KY7hL._SR500,500_.jpg",
     link:
       "https://www.argylesocks.co/wp-content/uploads/2013/02/1110x1266-VU102.jpg",
-    inStock: true,
+    inStock: false,
     inventory: 8,
     red: {
       color: "red",
@@ -49,9 +49,7 @@ const app = new Vue({
 
 /*
 
-new Vue === heart of the application
-
-The vue instance is the heart of the application
+new Vue instance is the heart of the application
 
 It plugs into an element in the dom
 
@@ -79,4 +77,12 @@ Conditional Rendering:
 v-if will add or remove an element from the dom, if we do this freqently we should use v-show
 
 v-show toggles visibility of element ie style="display: none"
+
+dynamically adding a class to an element
+
+<div :class="{ active: activeClass, 'text-danger: errorClass }">
+
+<div :class="[activeClass, errorClass]"></div>
+
+<div :class="[isActive ? activeClass : '']"></div>
 */

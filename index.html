@@ -20,9 +20,9 @@
         <p>{{ description }}</p>
         <span v-show="onSale" style="color: green">On Sale!</span>
         <a :href="link">Other styles</a>
-        <p v-if="inventory > 10">In Stock</p>
-      <p v-else-if="inventory <= 10 && inventory > 0" :style="red">Almost Sold Out!</p>
-        <p v-else>Out of Stock</p>
+        <p v-if="inventory > 10 && inStock">In Stock</p>
+      <p v-else-if="inventory <= 10 && inventory > 0 && inStock" :style="red">Almost Sold Out!</p>
+        <p v-else :class="{ line: !inStock}">Out of Stock</p>
         <ul>
           <li v-for="detail in details">
             {{detail}}
@@ -39,7 +39,10 @@
 
         <p v-for="size in sizes">{{ size }}</p>
 
-        <button @click="addToCart">Add to Cart</button>
+        <button @click="addToCart"
+                :disabled="!inStock"
+                :class="{disabledButton : !inStock}"
+        >Add to Cart</button>
         <button @click="remove">Remove</button>
 
         <div class="cart">
