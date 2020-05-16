@@ -1,9 +1,10 @@
 /* eslint-disable quotes */
-console.log('hi')
+console.log('hi');
 
 const app = new Vue({
   el: "#app",
   data: {
+    brand: 'Crispina\'s',
     onSale: false,
     product: "Socks",
     description: "Comfortable stylish men's socks!",
@@ -44,6 +45,11 @@ const app = new Vue({
       if (this.cart > 0) this.cart--;
     }
   },
+  computed: {
+    title() {
+      return this.brand + ' ' + this.product;
+    }
+  }
 });
 
 
@@ -53,9 +59,7 @@ new Vue instance is the heart of the application
 
 It plugs into an element in the dom
 
-That element can use an expression {{}} to display that instance's data
-
-Add a desscription to the data object, then use an expression to display the description beneath the H1
+That element can use an {{expression}} to display that instance's data
 
 -----------
 
@@ -85,4 +89,18 @@ dynamically adding a class to an element
 <div :class="[activeClass, errorClass]"></div>
 
 <div :class="[isActive ? activeClass : '']"></div>
+
+-----
+
+Computed Properties on the vue obj
+
+computed properties are cached, the result is saved until it's dependancies are changed
+
+if any dependancies are changed then the computed function is rerun and that new value is cached
+
+with that in mind it's more efficient to use a computed property rather than a method for an expensive operation that you shouldn't rerun every time you access the data.
+
+------------------
+
+
 */
