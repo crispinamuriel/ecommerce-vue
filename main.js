@@ -4,52 +4,61 @@ console.log('hi');
 const app = new Vue({
   el: "#app",
   data: {
-    brand: 'Crispina\'s',
+    brand: "Crispina's",
     onSale: false,
     product: "Socks",
     description: "Comfortable stylish men's socks!",
-    image: "https://m.media-amazon.com/images/I/61zSO8KY7hL._SR500,500_.jpg",
+    selectedVariant: 0,
     link:
       "https://www.argylesocks.co/wp-content/uploads/2013/02/1110x1266-VU102.jpg",
-    inStock: false,
-    inventory: 8,
     red: {
       color: "red",
     },
     details: ["80% cotton", "20% polyester", "Gender neutral"],
-    sizes: ['size 5-8', 'size 8-10', 'size 11-14'],
+    sizes: ["size 5-8", "size 8-10", "size 11-14"],
     variants: [
       {
         variantId: 2234,
         variantColor: "green",
         variantImage:
           "https://m.media-amazon.com/images/I/61zSO8KY7hL._SR500,500_.jpg",
+        variantQuantity: 0,
       },
       {
         variantId: 2235,
         variantColor: "blue",
         variantImage:
           "https://www.argylesocks.co/wp-content/uploads/2013/02/1110x1266-VU102.jpg",
+        variantQuantity: 100,
       },
     ],
-    cart: 0
+    cart: 0,
   },
   methods: {
-    handleChange(img) {
-      this.image = img;
+    handleChange(i) {
+      this.selectedVariant = i;
     },
     addToCart() {
       this.cart++;
     },
     remove() {
       if (this.cart > 0) this.cart--;
-    }
+    },
   },
   computed: {
     title() {
-      return this.brand + ' ' + this.product;
+      return this.brand + " " + this.product;
+    },
+    image() {
+      return this.variants[this.selectedVariant].variantImage;
+    },
+    quantity() {
+      return this.variants[this.selectedVariant].variantQuantity;
+    },
+    inStock() {
+      return this.variants[this.selectedVariant].variantQuantity > 0;
     }
-  }
+  },
 });
 
 
@@ -101,6 +110,7 @@ if any dependancies are changed then the computed function is rerun and that new
 with that in mind it's more efficient to use a computed property rather than a method for an expensive operation that you shouldn't rerun every time you access the data.
 
 ------------------
-
+<a :href="link">Other styles</a>
+when we use :href="link" we are data binding and using a dynamic variable 'link' to access some data as an expression
 
 */
