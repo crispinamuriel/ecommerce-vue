@@ -1,37 +1,91 @@
 /* eslint-disable quotes */
 
-const app = new Vue({
-  el: "#app",
-  data: {
-    brand: "Crispina's",
-    onSale: true,
-    product: "Socks",
-    description: "Comfortable stylish men's socks!",
-    selectedVariant: 0,
-    link:
-      "https://www.argylesocks.co/wp-content/uploads/2013/02/1110x1266-VU102.jpg",
-    red: {
-      color: "red",
-    },
-    details: ["80% cotton", "20% polyester", "Gender neutral"],
-    sizes: ["size 5-8", "size 8-10", "size 11-14"],
-    variants: [
-      {
-        variantId: 2234,
-        variantColor: "green",
-        variantImage:
-          "https://m.media-amazon.com/images/I/61zSO8KY7hL._SR500,500_.jpg",
-        variantQuantity: 0,
+Vue.component("product", {
+  props: {
+    premium: {
+      type: Boolean,
+      required: true
+    }
+  },
+  template: `
+    <div class="product">
+      <div class="product-image">
+        <img :src="image" />
+      </div>
+
+      <div class="product-info">
+        <h1>{{ title }}</h1>
+        <p>{{ description }}</p>
+      <span v-show="onSale" class="sale">{{nowOnSale}}</span>
+        <p v-if="quantity > 10">In Stock</p>
+      <p v-else-if="quantity <= 10 && quantity> 0" :style="red">Almost Sold Out!</p>
+        <p class='line' v-else>Out of Stock</p>
+        <p>Shipping: {{shipping}}</p>
+        <ul>
+          <li v-for="detail in details">
+            {{detail}}
+          </li>
+        </ul>
+
+        <div class="color-box"
+             v-for="(variant, i) in variants"
+             :key="variant.variantId"
+             :style="{ backgroundColor: variant.variantColor }"
+             @mouseover="handleChange(i)"
+        >
+        </div>
+
+        <p v-for="size in sizes">{{ size }}</p>
+
+        <button @click="addToCart"
+                :disabled="!inStock"
+                :class="{disabledButton : !inStock}"
+        >Add to Cart</button>
+        <button @click="remove">Remove</button>
+
+        <div class="cart">
+          <p>Cart ({{cart}})</p>
+        </div>
+
+      </div>
+
+
+
+    </div>
+  `,
+  data () {
+    return {
+      brand: "Crispina's",
+      onSale: true,
+      product: "Socks",
+      description: "Comfortable stylish men's socks!",
+      selectedVariant: 0,
+      link:
+        "https://www.argylesocks.co/wp-content/uploads/2013/02/1110x1266-VU102.jpg",
+      red: {
+        color: "red",
       },
-      {
-        variantId: 2235,
-        variantColor: "blue",
-        variantImage:
-          "https://www.argylesocks.co/wp-content/uploads/2013/02/1110x1266-VU102.jpg",
-        variantQuantity: 100,
-      },
-    ],
-    cart: 0,
+      details: ["80% cotton", "20% polyester", "Gender neutral"],
+      sizes: ["size 5-8", "size 8-10", "size 11-14"],
+      variants: [
+        {
+          variantId: 2234,
+          variantColor: "green",
+          variantImage:
+            "https://m.media-amazon.com/images/I/61zSO8KY7hL._SR500,500_.jpg",
+          variantQuantity: 0,
+        },
+        {
+          variantId: 2235,
+          variantColor: "blue",
+          variantImage:
+            "https://www.argylesocks.co/wp-content/uploads/2013/02/1110x1266-VU102.jpg",
+          variantQuantity: 100,
+        },
+      ],
+      cart: 0,
+    }
+
   },
   methods: {
     handleChange(i) {
@@ -58,9 +112,20 @@ const app = new Vue({
       return this.variants[this.selectedVariant].variantQuantity > 0;
     },
     nowOnSale() {
-      return `${this.brand} ${this.product} now on sale!`
+      return `${this.brand} ${this.product} now on sale!`;
+    },
+    shipping() {
+      if (this.premium) return 'Free';
+      return '5.99';
     }
-  },
+  }
+});
+
+const app = new Vue({
+  el: "#app",
+  data: {
+    premium: true
+  }
 });
 
 
@@ -209,5 +274,15 @@ Vue.component('product', {
 Inside here we can make an object for our message prop, and specify it's data type, if it's required or not, or give it a default value.
 
 -------------
+
+code for new components:
+
+1) Register Component:
+
+Vue.component('product', {
+  template: `<div>all of your component goes here</div>`
+});
+
+2) Add data, methods, and computed properties to component
 
 */
