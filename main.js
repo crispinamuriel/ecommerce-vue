@@ -1,9 +1,28 @@
 /* eslint-disable quotes */
+Vue.component("productDetails", {
+  props: {
+    details: {
+      type: Array,
+      required: true
+    }
+  },
+  template: `
+    <ul>
+      <li v-for="detail in details">
+        {{detail}}
+      </li>
+    </ul>
+  `
+});
 
 Vue.component("product", {
   props: {
     premium: {
       type: Boolean,
+      required: true
+    },
+    details: {
+      type: Array,
       required: true
     }
   },
@@ -21,11 +40,8 @@ Vue.component("product", {
       <p v-else-if="quantity <= 10 && quantity> 0" :style="red">Almost Sold Out!</p>
         <p class='line' v-else>Out of Stock</p>
         <p>Shipping: {{shipping}}</p>
-        <ul>
-          <li v-for="detail in details">
-            {{detail}}
-          </li>
-        </ul>
+
+        <productDetails :details="details"></productDetails>
 
         <div class="color-box"
              v-for="(variant, i) in variants"
@@ -49,8 +65,6 @@ Vue.component("product", {
 
       </div>
 
-
-
     </div>
   `,
   data () {
@@ -65,7 +79,6 @@ Vue.component("product", {
       red: {
         color: "red",
       },
-      details: ["80% cotton", "20% polyester", "Gender neutral"],
       sizes: ["size 5-8", "size 8-10", "size 11-14"],
       variants: [
         {
@@ -124,8 +137,9 @@ Vue.component("product", {
 const app = new Vue({
   el: "#app",
   data: {
-    premium: true
-  }
+    premium: true,
+    details: ["80% cotton", "20% polyester", "Gender neutral"]
+  },
 });
 
 
@@ -283,6 +297,42 @@ Vue.component('product', {
   template: `<div>all of your component goes here</div>`
 });
 
-2) Add data, methods, and computed properties to component
+2) Add data, methods, and computed propterties options to component
 
+    Vue.component('product', {
+      template: `<div>all of your component goes here</div>`,
+      data() {
+        return {
+          product: 'socks'
+        }
+      },
+      methods: {
+        addToCart() {}
+      },
+      computed: {
+        title() {}
+      }
+    });
+
+3) Add expected props option
+
+    Vue.component('componentName', {
+      props: {
+        firstProp:{
+          type: String,
+          required: true,
+          default: 'hello'
+        },
+      },
+      template: `<div>...</div>`,
+      data() {
+        return {}
+      },
+      methods: {
+        addToCart() {},
+      },
+      computed: {
+        title() {},
+      }
+    })
 */
