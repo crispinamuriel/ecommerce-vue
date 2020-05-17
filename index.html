@@ -10,10 +10,11 @@
   <div class="nav-bar"></div>
 
   <div id="app">
-    <product :details="details" :premium="premium"></product>
+    <product @add-to-cart="updateCart" @remove-from-cart="removeCart" :details="details" :premium="premium"></product>
+    <hello :cart="cart"></hello>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   <script src="./main.js"></script>
 </body>
 </html>

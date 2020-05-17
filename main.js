@@ -1,4 +1,16 @@
 /* eslint-disable quotes */
+Vue.component("hello", {
+  props: {
+    cart: {
+      type: Number,
+      required: true
+    }
+  },
+  template: `<div class="cart">
+        <p>Cart ({{cart.length}})</p>
+  </div>`,
+});
+
 Vue.component("productDetails", {
   props: {
     details: {
@@ -19,12 +31,12 @@ Vue.component("product", {
   props: {
     premium: {
       type: Boolean,
-      required: true
+      required: true,
     },
     details: {
       type: Array,
-      required: true
-    }
+      required: true,
+    },
   },
   template: `
     <div class="product">
@@ -48,26 +60,20 @@ Vue.component("product", {
              :key="variant.variantId"
              :style="{ backgroundColor: variant.variantColor }"
              @mouseover="handleChange(i)"
-        >
-        </div>
+        ></div>
 
         <p v-for="size in sizes">{{ size }}</p>
 
         <button @click="addToCart"
-                :disabled="!inStock"
-                :class="{disabledButton : !inStock}"
-        >Add to Cart</button>
+                  :disabled="!inStock"
+                  :class="{disabledButton : !inStock}"
+         >Add to Cart</button>
         <button @click="remove">Remove</button>
-
-        <div class="cart">
-          <p>Cart ({{cart}})</p>
-        </div>
-
-      </div>
+     </div>
 
     </div>
   `,
-  data () {
+  data() {
     return {
       brand: "Crispina's",
       onSale: true,
@@ -86,7 +92,7 @@ Vue.component("product", {
           variantColor: "green",
           variantImage:
             "https://m.media-amazon.com/images/I/61zSO8KY7hL._SR500,500_.jpg",
-          variantQuantity: 0,
+          variantQuantity: 30,
         },
         {
           variantId: 2235,
@@ -96,19 +102,17 @@ Vue.component("product", {
           variantQuantity: 100,
         },
       ],
-      cart: 0,
-    }
-
+    };
   },
   methods: {
     handleChange(i) {
       this.selectedVariant = i;
     },
     addToCart() {
-      this.cart++;
+      this.$emit('add-to-cart', this.variants[this.selectedVariant].variantId);
     },
     remove() {
-      if (this.cart > 0) this.cart--;
+      this.$emit('remove-from-cart');
     },
   },
   computed: {
@@ -128,18 +132,27 @@ Vue.component("product", {
       return `${this.brand} ${this.product} now on sale!`;
     },
     shipping() {
-      if (this.premium) return 'Free';
-      return '5.99';
-    }
-  }
+      if (this.premium) return "Free";
+      return "5.99";
+    },
+  },
 });
 
 const app = new Vue({
   el: "#app",
   data: {
     premium: true,
-    details: ["80% cotton", "20% polyester", "Gender neutral"]
+    details: ["80% cotton", "20% polyester", "Gender neutral"],
+    cart: [],
   },
+  methods: {
+    updateCart(id) {
+      this.cart.push(id);
+    },
+    removeCart() {
+      if (this.cart.length > 0) this.cart.pop();
+    }
+  }
 });
 
 
@@ -334,5 +347,36 @@ Vue.component('product', {
       computed: {
         title() {},
       }
-    })
+    });
+
+    -------------
+
+- Event Emitters
+
+To communicate with parent componets when a button (on click) has happened, we can emit an event.
+
+1. Inside of the child component we can add a method to a button like so:
+
+<button @Click="addToCart"></button>
+
+2. Then in our child component we add a method addToCart
+
+methods: {
+  addToCart() {
+    this.$emit('add-to-cart');
+  }
+}
+
+3. Now we should listen for this event emitter on our parent component. To do this we add an attribute with the v-on decorator for the event we emitted on our button.
+
+<product @add-to-cart="updateCart" @remove-from-cart="removeCart"
+
+4. We also need to write our method updateCart on our Vue root instance options object under methods.
+
+const app = new Vue({
+  el: '#app',
+  data: {},
+  methods: {updateCart() {}}
+})
+
 */
