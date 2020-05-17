@@ -91,3 +91,8 @@
  .line {
    color: red;
  }
+
+ .sale {
+   color: green;
+   font-style: italic;
+ }
